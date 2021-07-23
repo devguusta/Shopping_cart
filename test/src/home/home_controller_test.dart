@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
  final controller = HomeController();
   
-  group('Lista', () {
+  group('Home Controller', () {
     test('list length started empty', () {
       expect(HomeController().products.length, 0);
     });
@@ -21,6 +21,10 @@ void main() {
       List productTest = controller.products;
       
      expect(productTest.length, 50);
+    });
+    test('AppStatus should success', () async {
+      await controller.getProducts();
+      expect(controller.appStatus, AppStatus.success);
     });
 
 
