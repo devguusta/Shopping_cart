@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey.shade300,
         actions: [
           IconButton(
             onPressed: () {
@@ -43,6 +44,7 @@ class _HomePageState extends State<HomePage> {
                 Icon(
                   Icons.shopping_cart,
                   size: 30,
+                  color: Colors.blueGrey,
                 ),
                 Align(
                   alignment: Alignment.topLeft,
