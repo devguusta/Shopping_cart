@@ -5,8 +5,10 @@ import 'package:cart_mobx/src/shared/utils/extensions.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
- final controller = HomeController();
-  
+ var controller = HomeController();
+  setUpAll((){
+    controller = HomeController(); 
+  });
   group('Home Controller', () {
     test('list length started empty', () {
       expect(HomeController().products.length, 0);
@@ -15,14 +17,18 @@ void main() {
 
     test('AppStatus should start empty', () {
      expect(controller.appStatus, AppStatus.empty );
+     controller.getProducts();
     });
     test('list should generetaded 50 items', () async{
+      // List productTest = controller.products;
+      expect(controller.products.length, 0);
      await controller.getProducts();
-      List productTest = controller.products;
       
-     expect(productTest.length, 50);
+      
+     expect(controller.products.length, 50);
     });
     test('AppStatus should success', () async {
+      expect(controller.appStatus, AppStatus.empty);
       await controller.getProducts();
       expect(controller.appStatus, AppStatus.success);
     });
