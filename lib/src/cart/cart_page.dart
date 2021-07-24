@@ -16,7 +16,9 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          backgroundColor: Colors.blueGrey,
+        ),
         bottomSheet: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Expanded(
@@ -32,6 +34,7 @@ class _CartPageState extends State<CartPage> {
                   return Text(
                     widget.controller.cartPrice,
                     style: Theme.of(context).textTheme.headline6,
+                    
                   );
                 }),
               ],
@@ -41,79 +44,90 @@ class _CartPageState extends State<CartPage> {
         body: widget.controller.list.isEmpty
             ? Center(child: Text("OPS! Seu carrinho está vazio"))
             : Observer(builder: (_) {
-                return ListView.builder(
-                  itemCount: widget.controller.list.length,
-                  itemBuilder: (_, index) => Card(
-                    child: Column(
-                      children: [
-                        ListTile(
-                          title:
-                              Text(widget.controller.list[index].product.name),
-                          trailing: Text(widget
-                              .controller.list[index].product.price
-                              .reais()),
-                          onTap: () {},
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            mainAxisSize: MainAxisSize.max,
+                return SingleChildScrollView(
+                          child: Column(
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        itemCount: widget.controller.list.length,
+                        itemBuilder: (_, index) => Card(
+                          child: Column(
                             children: [
-                              Text("Valor Total : " +
-                                  widget.controller.list[index].totalPrice),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    child: IconButton(
-                                      onPressed: () =>
-                                          widget.controller.removeItem(
-                                        widget.controller.list[index].product,
-                                      ),
-                                      icon: Icon(Icons.remove),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      color: Colors.red.shade200,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12.0, vertical: 8.0),
-                                      child: Text(
-                                        widget.controller.list[index].quantity
-                                            .toString(),
-                                      ),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      color: Colors.grey.shade300,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: IconButton(
-                                      onPressed: () => widget.controller
-                                          .addItem(widget
-                                              .controller.list[index].product),
-                                      icon: Icon(
-                                        Icons.add,
-                                      ),
-                                    ),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(4.0),
-                                        color: Colors.blue.shade200),
-                                  ),
-                                ],
+                              ListTile(
+                                title:
+                                    Text(widget.controller.list[index].product.name),
+                                trailing: Text(widget
+                                    .controller.list[index].product.price
+                                    .reais()),
+                                onTap: () {},
                               ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Text("Valor Total : " +
+                                        widget.controller.list[index].totalPrice),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          child: IconButton(
+                                            onPressed: () =>
+                                                widget.controller.removeItem(
+                                              widget.controller.list[index].product,
+                                            ),
+                                            icon: Icon(Icons.remove),
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(4.0),
+                                            color: Colors.red.shade200,
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12.0, vertical: 8.0),
+                                            child: Text(
+                                              widget.controller.list[index].quantity
+                                                  .toString(),
+                                            ),
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(4.0),
+                                            color: Colors.grey.shade300,
+                                          ),
+                                        ),
+                                        Container(
+                                          child: IconButton(
+                                            onPressed: () => widget.controller
+                                                .addItem(widget
+                                                    .controller.list[index].product),
+                                            icon: Icon(
+                                              Icons.add,
+                                            ),
+                                          ),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0),
+                                              color: Colors.blue.shade200),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                             
                             ],
+                             
                           ),
-                        )
-                      ],
-                    ),
+                         
+                        ),
+                      ),
+                    ],
                   ),
                 );
               }));
