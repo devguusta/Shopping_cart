@@ -16,107 +16,109 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-           backgroundColor: Colors.blueGrey.shade300,
-        ),
-        body: Observer(builder: (_) {
-          if (widget.controller.list.isEmpty) {
-            return Center(child: Text("OPS! Seu carrinho está vazio"));
-          } else {
-            return Column(
+        appBar: AppBar(),
+        bottomSheet: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
               children: [
-                StaggeredGridView.countBuilder(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  padding: EdgeInsets.all(8),
-                  primary: false,
-                  shrinkWrap: true,
+                Text(
+                  "Total do carrinho:",
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                Observer(builder: (_) {
+                  return Text(
+                    widget.controller.cartPrice,
+                    style: Theme.of(context).textTheme.headline6,
+                  );
+                }),
+              ],
+            ),
+          ),
+        ),
+        body: widget.controller.list.isEmpty
+            ? Center(child: Text("OPS! Seu carrinho está vazio"))
+            : Observer(builder: (_) {
+                return ListView.builder(
                   itemCount: widget.controller.list.length,
-                  staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(6),
-                          ),
+                  itemBuilder: (_, index) => Card(
+                    child: Column(
+                      children: [
+                        ListTile(
+                          title:
+                              Text(widget.controller.list[index].product.name),
+                          trailing: Text(widget
+                              .controller.list[index].product.price
+                              .reais()),
+                          onTap: () {},
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    widget.controller.list[index].name,
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(0, 0, 0, 0.58),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      letterSpacing: 0.15,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text("Valor Total : " +
+                                  widget.controller.list[index].totalPrice),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    child: IconButton(
+                                      onPressed: () =>
+                                          widget.controller.removeItem(
+                                        widget.controller.list[index].product,
+                                      ),
+                                      icon: Icon(Icons.remove),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                      color: Colors.red.shade200,
                                     ),
                                   ),
-                                ),
-                                Row(
-                                  children: [
-                                    IconButton(
-                                      icon: Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 24.0, top: 14),
-                                        child: Icon(Icons.remove_shopping_cart,
-                                            color: Color.fromRGBO(0, 0, 0, 0.54)),
+                                  Container(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12.0, vertical: 8.0),
+                                      child: Text(
+                                        widget.controller.list[index].quantity
+                                            .toString(),
                                       ),
-                                      onPressed: () {
-                                        widget.controller.removeItem(
-                                            widget.controller.list[index]);
-                                      },
                                     ),
-                                    IconButton(
-                                      icon: Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 24.0, top: 14),
-                                        child: Icon(Icons.add_shopping_cart,
-                                            color: Color.fromRGBO(0, 0, 0, 0.54)),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                      color: Colors.grey.shade300,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: IconButton(
+                                      onPressed: () => widget.controller
+                                          .addItem(widget
+                                              .controller.list[index].product),
+                                      icon: Icon(
+                                        Icons.add,
                                       ),
-                                      onPressed: () {
-                                        widget.controller.addItem(
-                                            widget.controller.list[index]);
-                                      },
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 8.0, bottom: 8),
-                              child: Text(
-                                (widget.controller.list[index].price as double)
-                                    .reais(),
-                                style: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 0.54),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: 0.15,
-                                ),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(4.0),
+                                        color: Colors.blue.shade200),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            );
-          }
-        }));
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              }));
   }
+}
 
   // return ListView.builder(
   //         itemCount: widget.controller.list.length,
@@ -128,4 +130,4 @@ class _CartPageState extends State<CartPage> {
   //           },
   //         ),
   //       );
-}
+// }

@@ -5,8 +5,8 @@ import 'package:cart_mobx/src/shared/utils/extensions.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
- var controller = HomeController();
-  setUpAll((){
+ late var controller;
+  setUp((){
     controller = HomeController(); 
   });
   group('Home Controller', () {
@@ -23,8 +23,6 @@ void main() {
       // List productTest = controller.products;
       expect(controller.products.length, 0);
      await controller.getProducts();
-      
-      
      expect(controller.products.length, 50);
     });
     test('AppStatus should success', () async {
